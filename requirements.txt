@@ -1,0 +1,7 @@
+pandas
+openpyxl
+scikit-learn
+matplotlib
+lxml
+google_spreadsheet
+google-auth-oauthlib
