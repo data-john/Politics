@@ -1,4 +1,9 @@
+
 import subprocess
+
+def navigate_to_folder():
+    subprocess.run(["cd", "Desktop/Politics"])
+    print("NAVIGATED TO POLITICS")
 
 def stage_commit_push():
     # Stage changes
@@ -10,4 +15,8 @@ def stage_commit_push():
     # Push changes to remote repository
     subprocess.run(["git", "push"])
 
-stage_commit_push()
+def main():
+    # navigate_to_folder()
+    stage_commit_push()
+
+main()
