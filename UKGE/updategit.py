@@ -10,7 +10,7 @@ def stage_commit_push():
     subprocess.run(["git", "add", "."])
 
     # Commit changes with a message
-    subprocess.run(["git", "commit", "-m", "Your commit message"])
+    subprocess.run(["git", "commit", "-m", "Auto Update"])
 
     # Push changes to remote repository
     subprocess.run(["git", "push"])
