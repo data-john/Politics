@@ -1,5 +1,6 @@
 
 import subprocess
+from UKGE import run_sim, create_output
 
 def navigate_to_folder():
     subprocess.run(["cd", "Desktop/Politics"])
@@ -17,6 +18,8 @@ def stage_commit_push():
 
 def main():
     # navigate_to_folder()
+    run_sim()
+    create_output()
     stage_commit_push()
 
 main()
