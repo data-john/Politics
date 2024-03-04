@@ -235,7 +235,7 @@ def convert_to_pc(df):
     return df
 
 def get_std_errors():
-    poll_avgs = get_poll_averages()
+    poll_avgs = get_poll_avgs()
     pc_results = get_results_percentages()
     bigerrs = []
     for p,r in zip(poll_avgs,pc_results):
