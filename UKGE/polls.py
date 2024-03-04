@@ -1,5 +1,6 @@
 import pandas as pd
-from UKGE import get_poll_averages get_result_percentages
+import numpy as np
+from UKGE import get_poll_averages, get_results_percentages
 
 next_url = "https://en.wikipedia.org/wiki/Opinion_polling_for_the_next_United_Kingdom_general_election"
 url_19 = "https://en.wikipedia.org/wiki/Opinion_polling_for_the_2019_United_Kingdom_general_election"
@@ -147,6 +148,8 @@ def get_weighted_poll_avg(url, col_dict):
     return pd.concat([sdf_m,ldf_m],axis=1).transpose().mean()
 
 def get_std_errors():
+    poll_avgs = get_poll_averages()
+    pc_results = get_results_percentages()
     bigerrs = []
     for p,r in zip(poll_avgs,pc_results):
         conerr = float(p["con"] - r["con"])
@@ -154,3 +157,17 @@ def get_std_errors():
 
         bigerrs.append(conerr)
         bigerrs.append(laberr)
+    big_std = np.std(bigerrs) * 1.1
+    serrs = []
+    for p,r in zip(poll_avgs,pc_results):
+        liberr = float(p["lib"] - r["lib"])
+        serrs.append(liberr)
+        if "ref" in pd.DataFrame(p).transpose().columns:
+            referr = float(p["ref"] - r["ref"])
+            serrs.append(referr)
+            
+        if "nat" in pd.DataFrame(p).transpose().columns:
+            naterr = float(p["nat"] - r["nat"])
+            serrs.append(naterr)
+    small_std = np.std(serrs) *1.1
+    return big_std, small_std

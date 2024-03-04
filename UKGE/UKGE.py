@@ -13,8 +13,16 @@ std_parties = ["con","lab","lib","ref","nat","oth"]
 
 
 def run_sim(n=1000):
+    df = pd.read_csv("outputs/resultsclusteredconstituencies.csv")
     poll_avgs = get_poll_avgs()
     pc_results = get_results_percentages()
+    pc_res_19 = pc_results[-1]
+    constituencies = list(df["New constituency name"])
+
+    next_poll_avg = get_weighted_poll_avg(next_url, col_dict=next_col_dict)
+    nat_polls = standardise_df(next_poll_avg, next_col_dict)
+    chg_df = nat_polls - pc_res_19
+    chg_df = chg_df.dropna(axis=1).copy()
 
 
 def get_poll_avgs():
