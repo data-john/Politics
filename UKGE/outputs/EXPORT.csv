@@ -1,11 +1,18 @@
 ,2024-03-04
-lab,0.687
-Hung Parliament: Largest Party lab,0.243
-Hung Parliament: Largest Party con,0.06
-con,0.01
-conSeats,199.0
-labSeats,359.0
+lab,0.678
+Hung Parliament: Largest Party lab,0.239
+Hung Parliament: Largest Party con,0.068
+con,0.015
+conSeats,204.0
+labSeats,352.0
 libSeats,26.0
 refSeats,0.0
-natSeats,47.0
+natSeats,49.0
 othSeats,1.0
+Con,0.248
+Lab,0.437
+Lib Dems,0.092
+SNP,0.03
+Green,0.057
+Reform,0.111
+Others,0.027

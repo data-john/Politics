@@ -26,6 +26,10 @@ def create_output():
     typical_run = med_df[(med_df["labSeats"]>med_df["labSeats"].quantile(0.4))&(med_df["labSeats"]<med_df["labSeats"].quantile(0.6))&(med_df["natSeats"]>med_df["natSeats"].quantile(0.3))&(med_df["natSeats"]<med_df["natSeats"].quantile(0.7))&(med_df["libSeats"]>med_df["libSeats"].quantile(0.3))&(med_df["libSeats"]<med_df["libSeats"].quantile(0.7))].copy()
     for c in seat_cols:
         res_dict[c] = [typical_run.iloc[0][c]]
+    # Add Poll of Polls
+    polls = get_weighted_poll_avg(next_url, col_dict=next_col_dict)
+    for p in polls.keys():
+        res_dict[p] = [round(polls[p],ndigits=3)]
     today_df = pd.DataFrame(res_dict).rename({0:datetime.date.today()}).transpose()
     today_df.to_csv("UKGE/outputs/EXPORT.csv")
 
