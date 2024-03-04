@@ -1,4 +1,5 @@
 import pandas as pd
+from UKGE import get_poll_averages get_result_percentages
 
 next_url = "https://en.wikipedia.org/wiki/Opinion_polling_for_the_next_United_Kingdom_general_election"
 url_19 = "https://en.wikipedia.org/wiki/Opinion_polling_for_the_2019_United_Kingdom_general_election"
@@ -6,7 +7,8 @@ url_17 = "https://en.wikipedia.org/wiki/Opinion_polling_for_the_2017_United_King
 url_15 = "https://en.wikipedia.org/wiki/Opinion_polling_for_the_2015_United_Kingdom_general_election"
 url_10 = "https://en.wikipedia.org/wiki/Opinion_polling_for_the_2010_United_Kingdom_general_election"
 url_05 = "https://en.wikipedia.org/wiki/Opinion_polling_for_the_2005_United_Kingdom_general_election"
-
+big_std = 0.023
+small_std = 0.016
 
 
 next_col_dict = {
@@ -143,3 +145,12 @@ def get_weighted_poll_avg(url, col_dict):
     ldf = get_latest_polls_from_html(url,col_dict=col_dict, n=10)
     ldf_m = ldf[col_dict.values()].mean()
     return pd.concat([sdf_m,ldf_m],axis=1).transpose().mean()
+
+def get_std_errors():
+    bigerrs = []
+    for p,r in zip(poll_avgs,pc_results):
+        conerr = float(p["con"] - r["con"])
+        laberr = float(p["lab"] - r["lab"])
+
+        bigerrs.append(conerr)
+        bigerrs.append(laberr)
