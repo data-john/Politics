@@ -9,9 +9,9 @@ election_day = datetime.date(2025,1,28)
 
 
 std_parties = ["con","lab","lib","ref","nat","oth"]
-def create_output():
+def create_output(results_path = "UKGE/outputs/results/Results_"):
     today = datetime.date.today()
-    df = pd.read_csv("UKGE/outputs/results/Results_"+str(today)+".csv")
+    df = pd.read_csv(results_path+str(today)+".csv")
     df = df.transpose()
     df.columns = df.loc["Unnamed: 0"]
     df = df.drop("Unnamed: 0")
@@ -23,7 +23,7 @@ def create_output():
     for res in reasonable_res:
         res_dict[res] = [df["Result"].value_counts()[res] / sims]
     med_df = df[(df["conSeats"]>df["conSeats"].quantile(0.48))&(df["conSeats"]<df["conSeats"].quantile(0.52))]
-    typical_run = med_df[(med_df["labSeats"]>med_df["labSeats"].quantile(0.4))&(med_df["labSeats"]<med_df["labSeats"].quantile(0.6))&(med_df["natSeats"]>med_df["natSeats"].quantile(0.3))&(med_df["natSeats"]<med_df["natSeats"].quantile(0.7))&(med_df["libSeats"]>med_df["libSeats"].quantile(0.3))&(med_df["libSeats"]<med_df["libSeats"].quantile(0.7))].copy()
+    typical_run = med_df[(med_df["labSeats"]>=med_df["labSeats"].quantile(0.4))&(med_df["labSeats"]<=med_df["labSeats"].quantile(0.6))&(med_df["natSeats"]>=med_df["natSeats"].quantile(0.3))&(med_df["natSeats"]<=med_df["natSeats"].quantile(0.7))&(med_df["libSeats"]>=med_df["libSeats"].quantile(0.3))&(med_df["libSeats"]<=med_df["libSeats"].quantile(0.7))&(med_df["refSeats"]>=med_df["refSeats"].quantile(0.3))&(med_df["refSeats"]<=med_df["refSeats"].quantile(0.7))].copy()   
     for c in seat_cols:
         res_dict[c] = [typical_run.iloc[0][c]]
     # Add Poll of Polls
