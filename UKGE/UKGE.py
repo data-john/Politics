@@ -30,9 +30,17 @@ def create_output():
     polls = get_weighted_poll_avg(next_url, col_dict=next_col_dict)
     for p in polls.keys():
         res_dict[p] = [round(polls[p],ndigits=3)]
-    today_df = pd.DataFrame(res_dict).rename({0:datetime.date.today()}).transpose()
-    today_df.to_csv("UKGE/outputs/EXPORT.csv")
+    today_df = pd.DataFrame(res_dict).rename({0:str(datetime.date.today())}).transpose()
+    # today_df.to_csv("UKGE/outputs/EXPORT.csv")
+    return today_df
 
+def update_export(from_path="output/EXPORT.csv", to_path="output/EXPORT.csv"):
+    today_df = create_output()
+    from_df = pd.read_csv(from_path)
+    from_df = from_df.set_index("Unnamed: 0")  
+    from_df[str(datetime.date.today())] = today_df[str(datetime.date.today())]
+    from_df.to_csv(to_path)
+    return from_df
 
 def run_sim(n=1000):
     df = pd.read_csv("UKGE/outputs/resultsclusteredconstituencies.csv")

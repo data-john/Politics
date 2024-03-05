@@ -1,6 +1,6 @@
 
 import subprocess
-from UKGE import run_sim, create_output
+from UKGE import run_sim, update_export
 
 def navigate_to_folder():
     subprocess.run(["cd", "Desktop/Politics"])
@@ -18,8 +18,9 @@ def stage_commit_push():
 
 def main():
     # navigate_to_folder()
-    run_sim()
-    create_output()
+    # run_sim()
+    # create_output()
+    update_export(from_path="UKGE/outputs/EXPORT.csv", to_path="UKGE/outputs/EXPORT.csv")
     stage_commit_push()
 
 main()
