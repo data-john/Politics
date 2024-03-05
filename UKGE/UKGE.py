@@ -4,7 +4,7 @@ import numpy as np
 import datetime
 
 
-
+election_day = datetime.date(2025,1,28)
 
 
 
@@ -42,8 +42,8 @@ def update_export(from_path="output/EXPORT.csv", to_path="output/EXPORT.csv"):
     from_df.to_csv(to_path)
     return from_df
 
-def run_sim(n=1000):
-    df = pd.read_csv("UKGE/outputs/resultsclusteredconstituencies.csv")
+def run_sim(n=1000, res_path = "UKGE/outputs/resultsclusteredconstituencies.csv", output_path="UKGE/outputs/results/Results_"):
+    df = pd.read_csv(res_path)
     # poll_avgs = get_poll_avgs()
     pc_results = get_results_percentages(df.copy())
     pc_res_19 = pc_results[-1]
@@ -56,13 +56,19 @@ def run_sim(n=1000):
 
     natchgs = []
     sims_num = n
-    big_future_uncertainty = np.log()
-    future_uncertainty = 3
+    today = datetime.date.today()
+    days_remaining_delta = election_day - today
+    days_remaining = days_remaining_delta.days
+    if days_remaining < 1:
+        days_remaining = 1
+    big_future_uncertainty = np.log(days_remaining)*0.008 + days_remaining*0.00015
+    small_future_uncertainty = np.log(days_remaining)*0.002 + days_remaining*0.0002
+    print("BigStd: ",big_future_uncertainty+big_std)
     for p in std_parties:
         if nat_polls[p] > 0.2:
-            natchgs.append(np.random.normal(chg_df[p],big_std*future_uncertainty,sims_num))
+            natchgs.append(np.random.normal(chg_df[p],big_std+big_future_uncertainty,sims_num))
         else:
-            natchgs.append(np.random.normal(chg_df[p],small_std*future_uncertainty,sims_num))
+            natchgs.append(np.random.normal(chg_df[p],small_std+small_future_uncertainty,sims_num))
     clusters = list(set(list(df["Cluster"])))
     for p in std_parties:
         for c in clusters:
@@ -185,9 +191,9 @@ def run_sim(n=1000):
         all_result_cols.extend(l)
     # results_df = rand_df[all_result_cols].transpose().copy()
 
-    today = datetime.date.today()
 
-    rand_df[all_result_cols].transpose().to_csv("UKGE/outputs/results/Results_"+str(today)+".csv")
+
+    rand_df[all_result_cols].transpose().to_csv(output_path+str(today)+".csv")
 
 def get_poll_avgs():
     poll_avg19 = get_weighted_poll_avg(url_19, col_dict=col_dict19)
