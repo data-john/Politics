@@ -56,6 +56,7 @@ def run_sim(n=1000):
 
     natchgs = []
     sims_num = n
+    big_future_uncertainty = np.log()
     future_uncertainty = 3
     for p in std_parties:
         if nat_polls[p] > 0.2:
