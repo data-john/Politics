@@ -1,13 +1,13 @@
 Unnamed: 0,2024-03-05,2024-03-06,2024-03-07
-lab,0.624,0.592,0.584
-Hung Parliament: Largest Party lab,0.207,0.196,0.21
-Hung Parliament: Largest Party con,0.101,0.103,0.1065
-con,0.068,0.107,0.0955
-conSeats,188.0,201.0,191.0
-labSeats,368.0,353.0,352.0
-libSeats,33.0,31.0,34.0
+lab,0.624,0.592,0.613
+Hung Parliament: Largest Party lab,0.207,0.196,0.205
+Hung Parliament: Largest Party con,0.101,0.103,0.095
+con,0.068,0.107,0.0855
+conSeats,188.0,201.0,201.0
+labSeats,368.0,353.0,345.0
+libSeats,33.0,31.0,27.0
 refSeats,0.0,0.0,0.0
-natSeats,43.0,46.0,54.0
+natSeats,43.0,46.0,58.0
 othSeats,0.0,1.0,1.0
 Con,0.248,0.255,0.252
 Lab,0.437,0.432,0.434
