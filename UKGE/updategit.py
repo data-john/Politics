@@ -18,7 +18,7 @@ def stage_commit_push():
 
 def main():
     # navigate_to_folder()
-    run_sim()
+    run_sim(n=2000)
     # create_output()
     update_export(from_path="UKGE/outputs/EXPORT.csv", to_path="UKGE/outputs/EXPORT.csv")
     stage_commit_push()
