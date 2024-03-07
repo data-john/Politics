@@ -22,7 +22,7 @@ def create_output(results_path = "UKGE/outputs/results/Results_"):
     res_dict = {}
     for res in reasonable_res:
         res_dict[res] = [df["Result"].value_counts()[res] / sims]
-    med_df = df[(df["conSeats"]>df["conSeats"].quantile(0.48))&(df["conSeats"]<df["conSeats"].quantile(0.52))&(df["labSeats"]>=df["labSeats"].quantile(0.47))&(df["labSeats"]<=df["labSeats"].quantile(0.53))]
+    med_df = df[(df["conSeats"]>df["conSeats"].quantile(0.48))&(df["conSeats"]<df["conSeats"].quantile(0.52))&(df["labSeats"]>=df["labSeats"].quantile(0.48))&(df["labSeats"]<=df["labSeats"].quantile(0.52))]
     typical_run = med_df[(med_df["natSeats"]>=med_df["natSeats"].quantile(0.3))&(med_df["natSeats"]<=med_df["natSeats"].quantile(0.7))&(med_df["libSeats"]>=med_df["libSeats"].quantile(0.3))&(med_df["libSeats"]<=med_df["libSeats"].quantile(0.7))&(med_df["refSeats"]>=med_df["refSeats"].quantile(0.3))&(med_df["refSeats"]<=med_df["refSeats"].quantile(0.7))].copy()
     for c in seat_cols:
         res_dict[c] = [typical_run.iloc[0][c]]
