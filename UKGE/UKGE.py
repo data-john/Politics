@@ -21,7 +21,10 @@ def create_output(results_path = "UKGE/outputs/results/Results_"):
     reasonable_res = ["lab", "Hung Parliament: Largest Party lab", "Hung Parliament: Largest Party con", "con"]
     res_dict = {}
     for res in reasonable_res:
-        res_dict[res] = [df["Result"].value_counts()[res] / sims]
+        if res in df["Result"].value_counts().index:
+            res_dict[res] = [df["Result"].value_counts()[res] / sims]
+        else:
+            res_dict[res] = 0
     med_df = df[(df["conSeats"]>df["conSeats"].quantile(0.48))&(df["conSeats"]<df["conSeats"].quantile(0.52))&(df["labSeats"]>=df["labSeats"].quantile(0.48))&(df["labSeats"]<=df["labSeats"].quantile(0.52))]
     typical_run = med_df[(med_df["natSeats"]>=med_df["natSeats"].quantile(0.3))&(med_df["natSeats"]<=med_df["natSeats"].quantile(0.7))&(med_df["libSeats"]>=med_df["libSeats"].quantile(0.3))&(med_df["libSeats"]<=med_df["libSeats"].quantile(0.7))&(med_df["refSeats"]>=med_df["refSeats"].quantile(0.3))&(med_df["refSeats"]<=med_df["refSeats"].quantile(0.7))].copy()
     for c in seat_cols:
@@ -57,6 +60,7 @@ def run_sim(n=1000, res_path = "UKGE/outputs/resultsclusteredconstituencies.csv"
     natchgs = []
     sims_num = n
     today = datetime.date.today()
+    base_seed = int(today.strftime("%d%m%Y%H"))
     days_remaining_delta = election_day - today
     days_remaining = days_remaining_delta.days
     if days_remaining < 1:
@@ -64,18 +68,27 @@ def run_sim(n=1000, res_path = "UKGE/outputs/resultsclusteredconstituencies.csv"
     big_future_uncertainty = np.log(days_remaining)*0.008 + days_remaining*0.00015
     small_future_uncertainty = np.log(days_remaining)*0.002 + days_remaining*0.0002
     print("BigStd: ",big_future_uncertainty+big_std)
+    print("SmallStd: ",small_future_uncertainty+small_std)
+    # 09032024 BigStd:  0.11802060145863788
+
+    
+
     for p in std_parties:
         if nat_polls[p] > 0.2:
-            natchgs.append(np.random.normal(chg_df[p],big_std+big_future_uncertainty,sims_num))
+            rng = np.random.default_rng(seed=base_seed)
+            natchgs.append(rng.normal(chg_df[p],big_std+big_future_uncertainty,sims_num))
         else:
-            natchgs.append(np.random.normal(chg_df[p],small_std+small_future_uncertainty,sims_num))
+            rng = np.random.default_rng(seed=base_seed*2)
+            natchgs.append(rng.normal(chg_df[p],small_std+small_future_uncertainty,sims_num))
     clusters = list(set(list(df["Cluster"])))
     for p in std_parties:
         for c in clusters:
             if nat_polls[p] > 0.2:
-                natchgs.append(np.random.normal(0,big_std,sims_num))
+                rng = np.random.default_rng(seed=base_seed*3)
+                natchgs.append(rng.normal(0,big_std,sims_num))
             else:
-                natchgs.append(np.random.normal(0,small_std,sims_num))
+                rng = np.random.default_rng(seed=base_seed*4)
+                natchgs.append(rng.normal(0,small_std,sims_num))
 
     chg_dict = {}
     i=0
@@ -110,7 +123,7 @@ def run_sim(n=1000, res_path = "UKGE/outputs/resultsclusteredconstituencies.csv"
             clr_chg = rand_df[p+str(cluster)]
             
             # Calculate the noise for the current constituency and party
-            con_noise = [np.random.normal(0, (1+imputation_uncertainty)*small_std) for n in range(sims_num)]
+            con_noise = [rng.normal(0, (1+imputation_uncertainty)*small_std) for n in range(sims_num)]
             
             # Calculate the rough prediction for the current constituency and party
             prev_res_array = [float(prev_res.iloc[0]) for n in range(sims_num)]
