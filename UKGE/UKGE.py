@@ -207,8 +207,8 @@ def run_sim(n=1000, res_path = "UKGE/outputs/resultsclusteredconstituencies.csv"
 
 
 
-    rand_df.transpose().to_csv(output_path+str(today)+".csv")
-    # rand_df[all_result_cols].transpose().to_csv(output_path+str(today)+".csv")
+    # rand_df.transpose().to_csv(output_path+str(today)+".csv")
+    rand_df[all_result_cols].transpose().to_csv(output_path+str(today)+".csv")
 
 def get_poll_avgs():
     poll_avg19 = get_weighted_poll_avg(url_19, col_dict=col_dict19)
