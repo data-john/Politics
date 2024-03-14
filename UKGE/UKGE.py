@@ -292,3 +292,8 @@ def get_std_errors():
             serrs.append(naterr)
     small_std = np.std(serrs) *1.1
     return big_std, small_std
+
+def get_constituencies(res_path = "UKGE/outputs/resultsclusteredconstituencies.csv"):
+    df = pd.read_csv(res_path)
+    constituencies = list(df["New constituency name"])
+    return constituencies
