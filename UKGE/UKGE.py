@@ -45,7 +45,7 @@ def update_export(from_path="output/EXPORT.csv", to_path="output/EXPORT.csv"):
     from_df.to_csv(to_path)
     return from_df
 
-def run_sim(n=1000, res_path = "UKGE/outputs/resultsclusteredconstituencies.csv", output_path="UKGE/outputs/results/Results_"):
+def run_sim(n=1000, res_path = "UKGE/outputs/resultsclusteredconstituencies.csv", output_path="UKGE/outputs/results/Results_", polls_to_path="UKGE/outputs/lastnatpolls.csv"):
     df = pd.read_csv(res_path)
     # poll_avgs = get_poll_avgs()
     pc_results = get_results_percentages(df.copy())
@@ -53,6 +53,7 @@ def run_sim(n=1000, res_path = "UKGE/outputs/resultsclusteredconstituencies.csv"
     constituencies = list(df["New constituency name"])
 
     next_poll_avg = get_weighted_poll_avg(next_url, col_dict=next_col_dict)
+    next_poll_avg.to_csv(polls_to_path, index=False)
     nat_polls = standardise_df(next_poll_avg, next_col_dict)
     chg_df = nat_polls - pc_res_19
     chg_df = chg_df.dropna(axis=1).copy()
@@ -297,3 +298,8 @@ def get_constituencies(res_path = "UKGE/outputs/resultsclusteredconstituencies.c
     df = pd.read_csv(res_path)
     constituencies = list(df["New constituency name"])
     return constituencies
+
+def today_results_exist(export_path="UKGE/outputs/EXPORT.csv"):
+    export = pd.read_csv(export_path)
+    today = datetime.date.today()
+    return str(today) in export.columns

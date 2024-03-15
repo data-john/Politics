@@ -1,6 +1,7 @@
 
 import subprocess
-from UKGE import run_sim, update_export
+from UKGE import run_sim, update_export, today_results_exist
+from polls import polls_have_changed
 
 def navigate_to_folder():
     subprocess.run(["cd", "Desktop/Politics"])
@@ -18,7 +19,9 @@ def stage_commit_push():
 
 def main():
     # navigate_to_folder()
-    run_sim(n=4000)
+    if not polls_have_changed() and today_results_exist():
+        return
+    run_sim(n=8000)
     # create_output()
     update_export(from_path="UKGE/outputs/EXPORT.csv", to_path="UKGE/outputs/EXPORT.csv")
     stage_commit_push()

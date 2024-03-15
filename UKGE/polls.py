@@ -146,3 +146,14 @@ def get_weighted_poll_avg(url, col_dict):
     ldf_m = ldf[col_dict.values()].mean()
     return pd.concat([sdf_m,ldf_m],axis=1).transpose().mean()
 
+def polls_have_changed(last_polls_path="UKGE/outputs/lastnatpolls.csv"):
+    next_poll_avg = list(get_weighted_poll_avg(next_url, col_dict=next_col_dict))
+    last_nat_polls = pd.read_csv(last_polls_path)
+    res = False
+    for k,v in enumerate(next_poll_avg):
+        new_v = round(v,5)
+        old_v = round(last_nat_polls.loc[k].iloc[0],5)
+        if new_v!=old_v :
+            print(k,v,"  ", last_nat_polls.loc[k].iloc[0])
+            res = True
+    return res
