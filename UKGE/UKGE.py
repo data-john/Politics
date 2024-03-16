@@ -4,7 +4,7 @@ import numpy as np
 import datetime
 
 
-election_day = datetime.date(2025,1,28)
+election_day = datetime.date(2024,12,31)
 
 
 
