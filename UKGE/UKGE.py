@@ -113,6 +113,10 @@ def run_sim(n=1000, res_path = "UKGE/outputs/resultsclusteredconstituencies.csv"
         # Get the cluster, imputation uncertainty, and future uncertainty for the current constituency
         cluster = con_df["Cluster"].iloc[0]
         imputation_uncertainty = con_df["Low_Confidence_Imputation"].iloc[0]
+        if cluster == 999:
+            anomaly_uncertainty = 1
+        else:
+            anomaly_uncertainty = 0
         
         # Iterate over standard parties
         for i,p in enumerate(std_parties):
@@ -125,7 +129,7 @@ def run_sim(n=1000, res_path = "UKGE/outputs/resultsclusteredconstituencies.csv"
             
             # Calculate the noise for the current constituency and party
             rng = np.random.default_rng(seed=base_seed*5+i)
-            con_noise = [rng.normal(0, (1+imputation_uncertainty)*small_std) for n in range(sims_num)]
+            con_noise = [rng.normal(0, (1+imputation_uncertainty+anomaly_uncertainty)*small_std) for n in range(sims_num)]
             
             # Calculate the rough prediction for the current constituency and party
             prev_res_array = [float(prev_res.iloc[0]) for n in range(sims_num)]
