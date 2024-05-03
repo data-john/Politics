@@ -33,6 +33,10 @@ def create_output(results_path = "UKGE/outputs/results/Results_"):
     polls = get_weighted_poll_avg(next_url, col_dict=next_col_dict)
     for p in polls.keys():
         res_dict[p] = [round(polls[p],ndigits=3)]
+    # Add Latest Polls
+    latest_polls = get_latest_polls_dict()
+    for p in latest_polls.keys():
+        res_dict[p] = [round(latest_polls[p], ndigits=3)]
     today_df = pd.DataFrame(res_dict).rename({0:str(datetime.date.today())}).transpose()
     # today_df.to_csv("UKGE/outputs/EXPORT.csv")
     return today_df
@@ -307,3 +311,18 @@ def today_results_exist(export_path="UKGE/outputs/EXPORT.csv"):
     export = pd.read_csv(export_path)
     today = datetime.date.today()
     return str(today) in export.columns
+
+def get_descriptive_cluster_labels():
+    return {
+        0:"Labour",
+        1:"Brexit",
+        2:"Marginal",
+        3:"SNP",
+        4:"Brexit Conservative",
+        5:"Conservative",
+        6:"Immigrant",
+        7:"Lib-Con",
+        8:"Remain",
+        9:"Nat-Conservative",
+        999:"Anomalous"
+    }

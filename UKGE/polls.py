@@ -137,6 +137,15 @@ def get_latest_polls_from_html(html, col_dict=next_col_dict, n=10, allow_repeate
     df = get_latest_polls(df, n=n, allow_repeated_pollsters=allow_repeated_pollsters)
     return df
 
+def get_latest_polls_dict(n=3):
+    latest_polls_df = get_latest_polls_from_html(next_url)
+    latest_polls_df = latest_polls_df[next_col_dict.values()].copy()
+    latest_polls_dict = {}
+    for n in range(n):
+        r = latest_polls_df.iloc[n]
+        for col in latest_polls_df.columns:
+            latest_polls_dict[col+str(n)] = r[col]
+    return latest_polls_dict
 
 def get_weighted_poll_avg(url, col_dict):
     sdf = get_latest_polls_from_html(url,col_dict=col_dict, n=3)
