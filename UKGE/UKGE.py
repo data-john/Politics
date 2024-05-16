@@ -326,3 +326,18 @@ def get_descriptive_cluster_labels():
         9:"Nat-Conservative",
         999:"Anomalous"
     }
+
+def get_descriptive_cluster_labels_17():
+    return {
+        0:"Old NW England",
+        1:"Brexit Lab-Con Marginals",
+        2:"SNP",
+        3:"Labour Families",
+        4:"Working Families",
+        5:"Old Lib-Con SW",
+        6:"Old Conservative",
+        7:"Working Remain Lib-Cons SE",
+        8:"Remain Working London",
+        9:"Labour Brexit",
+        999:"Anomalous"
+    }
