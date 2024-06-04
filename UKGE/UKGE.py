@@ -320,7 +320,7 @@ def get_descriptive_cluster_labels():
         3:"SNP",
         4:"Brexit Conservative",
         5:"Conservative",
-        6:"Immigrant",
+        6:"Religious",
         7:"Lib-Con",
         8:"Remain",
         9:"Nat-Conservative",
