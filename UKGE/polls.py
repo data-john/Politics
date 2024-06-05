@@ -131,8 +131,8 @@ def get_wiki_polls_table(html):
     df = poll_tables[0].copy()
     return df
 
-def get_latest_polls_from_html(html, col_dict=next_col_dict, n=10, allow_repeated_pollsters=False):
-    df = get_wiki_polls_table(html)
+def get_latest_polls_from_html(url, col_dict=next_col_dict, n=10, allow_repeated_pollsters=False):
+    df = get_wiki_polls_table(url)
     df = wiki_polls_preprocessing(df, col_names=col_dict)
     df = get_latest_polls(df, n=n, allow_repeated_pollsters=allow_repeated_pollsters)
     return df

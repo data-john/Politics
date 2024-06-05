@@ -206,7 +206,7 @@ def run_sim(n=1000, res_path = "UKGE/outputs/resultsclusteredconstituencies.csv"
         if wins < 525:
             close_cols.append(col)
     all_final_cols = [con+p+"Final"for p in std_parties for con in constituencies]
-    all_margin_cols = [con+"Margin"for p in std_parties for con in constituencies]
+    all_margin_cols = [con+"Margin" for con in constituencies]
     winner_cols
     results_cols = ["Result"]
     all_result_cols = []
