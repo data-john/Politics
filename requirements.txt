@@ -6,3 +6,4 @@ lxml
 google_spreadsheet
 google-auth-oauthlib
 geopy
+seaborn
