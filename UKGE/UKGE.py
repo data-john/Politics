@@ -61,6 +61,7 @@ def run_sim(n=1000, res_path = "UKGE/outputs/resultsclusteredconstituencies.csv"
     nat_polls = standardise_df(next_poll_avg, next_col_dict)
     chg_df = nat_polls - pc_res_19
     chg_df = chg_df.dropna(axis=1).copy()
+    chg_df["nat"] = chg_df["nat"] *7 # Account for small number of seats in which nats stand
 
     natchgs = []
     sims_num = n
