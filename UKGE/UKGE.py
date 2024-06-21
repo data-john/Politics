@@ -50,8 +50,11 @@ def update_export(from_path="outputs/EXPORT.csv", to_path="outputs/EXPORT.csv", 
     return from_df
 
 def run_sim(n=1000, res_path = "UKGE/outputs/resultsclusteredconstituencies.csv", output_path="UKGE/outputs/results/Results_", polls_to_path="UKGE/outputs/lastnatpolls.csv"):
-    df = pd.read_csv(res_path)
+    imputed_res_path = "UKGE/outputs/resultsimputedstanding.csv"
+    df = pd.read_csv(imputed_res_path)
+    # res_df = pd.read_csv(res_path)
     # poll_avgs = get_poll_avgs()
+    print(df.columns)
     pc_results = get_results_percentages(df.copy())
     pc_res_19 = pc_results[-1]
     constituencies = list(df["New constituency name"])
@@ -110,6 +113,7 @@ def run_sim(n=1000, res_path = "UKGE/outputs/resultsclusteredconstituencies.csv"
     # Create a dictionary to store the results for each constituency and party
     results = {}
 
+    df = df.loc[:,["New constituency name", "Cluster","Low_Confidence_Imputation","2019_Resultscon_pc", "2019_Resultslab_pc", "2019_Resultslib_pc", "2019_Resultsref_pc", "2019_Resultsnat_pc", "2019_Resultsoth_pc"]].copy()
     # Iterate over constituencies
     for con in constituencies:
         # Filter the dataframe for the current constituency
